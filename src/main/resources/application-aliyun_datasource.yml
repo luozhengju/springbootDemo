@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    name: jwtdemo
+    url: jdbc:mysql://rm-wz917pnes1070a8a2ro.mysql.rds.aliyuncs.com:3306/jwtdemo
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: Lzj0437!
