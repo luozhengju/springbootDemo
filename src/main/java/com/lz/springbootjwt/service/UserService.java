@@ -1,5 +1,6 @@
 package com.lz.springbootjwt.service;
 
+import com.lz.springbootjwt.model.RegisterVo;
 import com.lz.springbootjwt.model.User;
 
 import java.util.List;
@@ -10,5 +11,9 @@ import java.util.List;
  */
 public interface UserService {
     List<User> selectByName(String userName);
+
+    User findUserById(Integer userId);
+
+    void insertUser(RegisterVo registerVo);
 
 }

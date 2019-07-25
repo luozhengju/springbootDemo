@@ -1,5 +1,6 @@
 package com.lz.springbootjwt.mapper;
 
+import com.lz.springbootjwt.model.RegisterVo;
 import com.lz.springbootjwt.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,5 +13,10 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     List<User> selectByName(String userName);
+
+
+    User findUserById(Integer userId);
+
+    Integer insertUser(RegisterVo registerVo);
 
 }

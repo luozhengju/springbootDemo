@@ -1,7 +1,9 @@
 package com.lz.springbootjwt.jwt.interception;
 
 
+import com.lz.springbootjwt.jwt.model.JWTVerifyEnum;
 import com.lz.springbootjwt.jwt.model.JWTVerifyResult;
+import com.lz.springbootjwt.jwt.util.JWTUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -14,6 +16,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class JWTInterception extends HandlerInterceptorAdapter {
+
+    public static final Integer SGIN_ERROR = 801; //签名错误
+
+    public static final Integer EXPIRED_JWT = 601; //jwt超时
+
+    public static final Integer SUCCESS = 200;      //认证成功
 
     /**
      * 请求接口前拦截
@@ -28,11 +36,23 @@ public class JWTInterception extends HandlerInterceptorAdapter {
 
         String header = request.getHeader("Authorization");
         System.out.println(header);
-        if(header != null&&header.startsWith("Bearer")){
-
-
-        }else {
-            throw new RuntimeException("jwt非法");
+        if(null == header||!header.startsWith("Bearer")){
+            response.setStatus(SGIN_ERROR);
+            return false;
+        }
+        String token = header.substring("Bearer ".length());
+        JWTVerifyResult verify = JWTUtil.verify(token);
+        if(verify.getJwtVerifyEnum() == JWTVerifyEnum.EXPIRED){
+            response.setStatus(EXPIRED_JWT);
+            return false;
+        }
+        if(verify.getJwtVerifyEnum() == JWTVerifyEnum.FAIL){
+            response.setStatus(SGIN_ERROR);
+            return false;
+        }
+        if(verify.getJwtVerifyEnum() == JWTVerifyEnum.SUCCESS){
+            response.setStatus(SUCCESS);
+            return true;
         }
 
         return false;

@@ -4,4 +4,12 @@
     <select id="selectByName" parameterType="java.lang.String" resultType="com.lz.springbootjwt.model.User">
       select * from user where userName = #{userName}
     </select>
+
+    <select id="findUserById" parameterType="int" resultType="com.lz.springbootjwt.model.User">
+        select * from user where userId = #{userId}
+    </select>
+
+    <insert id="insertUser" parameterType="com.lz.springbootjwt.model.RegisterVo">
+        insert into user(userName,password) values (#{userName},#{password})
+    </insert>
 </mapper>

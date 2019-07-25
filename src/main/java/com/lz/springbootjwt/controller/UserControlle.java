@@ -3,15 +3,10 @@ package com.lz.springbootjwt.controller;
 import com.lz.springbootjwt.jwt.model.JWTUser;
 import com.lz.springbootjwt.jwt.model.JWTVerifyResult;
 import com.lz.springbootjwt.jwt.util.JWTUtil;
-import com.lz.springbootjwt.model.LoginResponse;
-import com.lz.springbootjwt.model.ResponseEntity;
-import com.lz.springbootjwt.model.User;
-import com.lz.springbootjwt.model.UserVo;
+import com.lz.springbootjwt.model.*;
 import com.lz.springbootjwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +23,22 @@ public class UserControlle {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/login")
+    @RequestMapping(value = "/register",method = {RequestMethod.POST,RequestMethod.GET})
+    public ResponseEntity<Boolean> register(RegisterVo registerVo){
+        try {
+            List<User> users = userService.selectByName(registerVo.getUserName());
+            if(null == users||users.size() == 0){
+                userService.insertUser(registerVo);
+                return ResponseEntity.success(true,"注册成功");
+            }
+            return ResponseEntity.fail(false, "注册失败");
+        }catch (Exception e){
+            return ResponseEntity.fail(false, "注册异常");
+        }
+
+    }
+
+    @RequestMapping(value = "/login",method = {RequestMethod.POST,RequestMethod.GET})
     public ResponseEntity<LoginResponse> login(UserVo userVo){
         List<User> users = userService.selectByName(userVo.getUserName());
 
@@ -55,7 +65,13 @@ public class UserControlle {
         }
     }
 
-    @RequestMapping("/test/{jwtToken}")
+    @GetMapping("/findUserById.do")
+    public ResponseEntity<User> findUserById(Integer userId){
+       User user = userService.findUserById(userId);
+       return ResponseEntity.success(user,"获取用户信息成功");
+    }
+
+    @PostMapping("/test/{jwtToken}")
     public String testJwtVerify(@PathVariable("jwtToken") String jwtToken){
         JWTVerifyResult verify = JWTUtil.verify(jwtToken);
         return verify.getMessage();

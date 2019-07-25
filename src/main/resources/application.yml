@@ -4,3 +4,10 @@ mybatis:
 spring:
   profiles:
     active: aliyun_datasource
+
+swagger:
+  groupName: lalala
+  basePackage: com.lz.springbootjwt
+  title: 一只大肥橘
+  version: 1.0
+  desc: 一只大肥橘，向东流
