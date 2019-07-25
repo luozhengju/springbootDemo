@@ -10,10 +10,12 @@ import java.util.List;
  * @create 2019-07-22 18:10
  */
 public interface UserService {
-    List<User> selectByName(String userName);
+    List<User> selectByName(String loginAccount);
 
-    User findUserById(Integer userId);
+    User findUserById(Long id);
 
-    void insertUser(RegisterVo registerVo);
+    void insertUser(User user);
+
+    void updataUser(User user);
 
 }

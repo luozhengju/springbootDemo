@@ -2,14 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lz.springbootjwt.mapper.UserMapper">
     <select id="selectByName" parameterType="java.lang.String" resultType="com.lz.springbootjwt.model.User">
-      select * from user where userName = #{userName}
+      select * from t_user where loginAccount = #{loginAccount}
     </select>
 
-    <select id="findUserById" parameterType="int" resultType="com.lz.springbootjwt.model.User">
-        select * from user where userId = #{userId}
+    <select id="findUserById" parameterType="long" resultType="com.lz.springbootjwt.model.User">
+        select * from t_user where id = #{id}
     </select>
 
-    <insert id="insertUser" parameterType="com.lz.springbootjwt.model.RegisterVo">
-        insert into user(userName,password) values (#{userName},#{password})
+    <insert id="insertUser" parameterType="com.lz.springbootjwt.model.User">
+        insert into
+            t_user(userName,loginAccount,password,email,createTime)
+        values
+            (#{userName},#{loginAccount},#{password},#{email},#{createTime})
     </insert>
+
+    <update id="updataUser" parameterType="com.lz.springbootjwt.model.User">
+        update t_user
+        <set>
+            <if test="userName != null">
+                userName = #{userName},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+        </set>
+        where id = #{id}
+
+    </update>
 </mapper>

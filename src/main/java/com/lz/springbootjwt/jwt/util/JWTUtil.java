@@ -9,12 +9,10 @@ import com.nimbusds.jose.crypto.MACSigner;
 
 
 import com.nimbusds.jose.crypto.MACVerifier;
-import com.sun.source.tree.AssertTree;
 import net.minidev.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 

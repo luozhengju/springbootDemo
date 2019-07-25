@@ -6,25 +6,20 @@ import lombok.Data;
 
 /**
  * @author lzj
- * @create 2019-07-25 15:02
+ * @create 2019-07-25 19:12
  */
 @Data
-@ApiModel("用户注册Vo")
-public class RegisterVo {
+@ApiModel("用户更新Vo类")
+public class UserupdataVo {
 
-    @ApiModelProperty(value = "登陆账号")
-    private String loginAccount;
-
-    @ApiModelProperty(value = "密码")
-    private String password;
+    private Long id;
 
     @ApiModelProperty(value = "用户姓名")
     private String userName;
 
+    @ApiModelProperty(value = "用户密码")
+    private String password;
+
     @ApiModelProperty(value = "用户邮箱")
     private String email;
-
-    //@ApiModelProperty(value = "创建时间")
-    //private String createTime;
-
 }

@@ -20,21 +20,29 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public List<User> selectByName(String userName) {
-        return userMapper.selectByName(userName);
+    public List<User> selectByName(String loginAccount) {
+        return userMapper.selectByName(loginAccount);
     }
 
     @Override
-    public User findUserById(Integer userId) {
-        return userMapper.findUserById(userId);
+    public User findUserById(Long id) {
+        return userMapper.findUserById(id);
     }
 
     @Override
-    public void insertUser(RegisterVo registerVo) {
-        Integer result = userMapper.insertUser(registerVo);
+    public void insertUser(User user) {
+        Integer result = userMapper.insertUser(user);
         if(result == null){
             throw new RuntimeException("注册失败");
         }
 
+    }
+
+    @Override
+    public void updataUser(User user) {
+       Integer result = userMapper.updataUser(user);
+       if(result == null){
+           throw new RuntimeException("用户更新失败");
+       }
     }
 }

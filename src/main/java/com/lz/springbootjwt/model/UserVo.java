@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 public class UserVo {
-    private String userName;
+    private String loginAccount;
 
     private String password;
 }

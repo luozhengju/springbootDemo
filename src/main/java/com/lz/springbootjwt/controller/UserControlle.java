@@ -5,9 +5,13 @@ import com.lz.springbootjwt.jwt.model.JWTVerifyResult;
 import com.lz.springbootjwt.jwt.util.JWTUtil;
 import com.lz.springbootjwt.model.*;
 import com.lz.springbootjwt.service.UserService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static sun.jvm.hotspot.code.CompressedStream.L;
@@ -26,9 +30,13 @@ public class UserControlle {
     @RequestMapping(value = "/register",method = {RequestMethod.POST,RequestMethod.GET})
     public ResponseEntity<Boolean> register(RegisterVo registerVo){
         try {
-            List<User> users = userService.selectByName(registerVo.getUserName());
+            List<User> users = userService.selectByName(registerVo.getLoginAccount());
             if(null == users||users.size() == 0){
-                userService.insertUser(registerVo);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                User user = new User();
+                BeanUtils.copyProperties(registerVo, user);
+                user.setCreateTime(sdf.format(new Date()));
+                userService.insertUser(user);
                 return ResponseEntity.success(true,"注册成功");
             }
             return ResponseEntity.fail(false, "注册失败");
@@ -40,7 +48,7 @@ public class UserControlle {
 
     @RequestMapping(value = "/login",method = {RequestMethod.POST,RequestMethod.GET})
     public ResponseEntity<LoginResponse> login(UserVo userVo){
-        List<User> users = userService.selectByName(userVo.getUserName());
+        List<User> users = userService.selectByName(userVo.getLoginAccount());
 
         if(null == users){
             return ResponseEntity.fail(null, "账号不存在");
@@ -51,11 +59,11 @@ public class UserControlle {
         User user = users.get(0);
         if(user.getPassword().equals(userVo.getPassword())){
             LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setUserId(user.getUserId());
+            loginResponse.setUserId(user.getId());
             loginResponse.setUserName(user.getUserName());
             //签发jwt
             JWTUser jwtUser = new JWTUser();
-            jwtUser.setUserId(user.getUserId());
+            jwtUser.setUserId(user.getId());
             jwtUser.setUserName(user.getUserName());
             String jwtToken = JWTUtil.sign(jwtUser, (long) (1000 * 60 * 60 * 0.5));
             loginResponse.setJwtToken(jwtToken);
@@ -66,9 +74,22 @@ public class UserControlle {
     }
 
     @GetMapping("/findUserById.do")
-    public ResponseEntity<User> findUserById(Integer userId){
-       User user = userService.findUserById(userId);
+    public ResponseEntity<User> findUserById(Long id){
+       User user = userService.findUserById(id);
        return ResponseEntity.success(user,"获取用户信息成功");
+    }
+
+    @PostMapping("/updateUser")
+    public ResponseEntity<Boolean> updataUser(UserupdataVo userupdataVo){
+        try {
+            User user = new User();
+            BeanUtils.copyProperties(userupdataVo, user);
+            userService.updataUser(user);
+            return ResponseEntity.success(true,"用户信息更新成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.fail(false, "用户信息更新失败");
+        }
     }
 
     @PostMapping("/test/{jwtToken}")

@@ -49,7 +49,7 @@ public class ResponseEntity<T> {
     public static<T> ResponseEntity<T> fail(T data,String message){
         ResponseEntity<T> resp = new ResponseEntity<>();
         resp.setStatus(ResponseStatus.FAIL.getValue());
-        resp.setMessage(ResponseStatus.FAIL.getMessage());
+        resp.setMessage(message!=null?message:ResponseStatus.FAIL.getMessage());
         resp.setData(data);
         return resp;
     }

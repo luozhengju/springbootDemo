@@ -1,9 +1,12 @@
-
 mybatis:
   mapper-locations: classpath*:/com/lz/springbootjwt/mapper/xml/*.xml
+
+
 spring:
   profiles:
     active: aliyun_datasource
+    #active: dev
+
 
 swagger:
   groupName: lalala
