@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @create 2019-07-23 17:36
  */
 @Component
-public class JWTInterception extends HandlerInterceptorAdapter {
+public class JWTInterceptor extends HandlerInterceptorAdapter {
 
     public static final Integer SGIN_ERROR = 801; //签名错误
 
@@ -35,7 +35,6 @@ public class JWTInterception extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String header = request.getHeader("Authorization");
-        System.out.println(header);
         if(null == header||!header.startsWith("Bearer")){
             response.setStatus(SGIN_ERROR);
             return false;

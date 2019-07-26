@@ -7,7 +7,10 @@ import com.lz.springbootjwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lzj
@@ -44,5 +47,39 @@ public class UserServiceImpl implements UserService {
        if(result == null){
            throw new RuntimeException("用户更新失败");
        }
+    }
+
+    @Override
+    public void deleteUser(String ids) {
+        int result = 0;
+        String[] splitId = ids.split(",");
+        if(splitId.length>1){
+            List<Long> idList = string2long(splitId);
+            result = userMapper.batchDeleteUserByIds(idList);
+        }else {
+            result = userMapper.deleteUserById(Long.parseLong(ids));
+        }
+        if(result<1){
+            throw new RuntimeException("用户信息删除失败");
+        }
+
+    }
+
+    @Override
+    public void insertUserRoles(Map<String, Object> map) {
+        userMapper.insertUserRoles(map);
+    }
+
+    @Override
+    public List<Integer> findRoleByUserId(Long id) {
+        return userMapper.findRoleByUserId(id);
+    }
+
+    private List<Long> string2long(String[] strs){
+        ArrayList<Long> longs = new ArrayList<>();
+        for(int i=0;i<strs.length;i++){
+            longs.add(Long.parseLong(strs[i]));
+        }
+        return longs;
     }
 }

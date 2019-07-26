@@ -1,6 +1,7 @@
 package com.lz.springbootjwt.config;
 
-import com.lz.springbootjwt.jwt.interception.JWTInterception;
+import com.lz.springbootjwt.jwt.interception.AuthInterceptor;
+import com.lz.springbootjwt.jwt.interception.JWTInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,11 +15,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class webConfig implements WebMvcConfigurer {
 
     @Autowired
-    private JWTInterception jwtInterception;
+    private JWTInterceptor jwtInterception;
+
+    @Autowired
+    private AuthInterceptor authInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterception).addPathPatterns("/**/*.do")
+                .excludePathPatterns("/login");
+        registry.addInterceptor(authInterceptor).addPathPatterns("/**/*.do")
                 .excludePathPatterns("/login");
     }
 }

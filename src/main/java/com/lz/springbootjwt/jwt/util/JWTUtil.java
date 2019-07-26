@@ -123,4 +123,15 @@ public  class JWTUtil {
         }
         return bytesKey;
     }
+
+    //获取jwt荷载
+    public static Payload getPayload(String jwtToken){
+        try {
+            JWSObject jwsObject = JWSObject.parse(jwtToken);
+            return jwsObject.getPayload();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new RuntimeException("获取jwtPayload异常");
+        }
+    }
 }

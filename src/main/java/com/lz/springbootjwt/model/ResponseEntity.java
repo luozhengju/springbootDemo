@@ -32,7 +32,7 @@ public class ResponseEntity<T> {
     public static<T> ResponseEntity<T> success(T data,String message){
         ResponseEntity<T> resp = new ResponseEntity<>();
         resp.setStatus(ResponseStatus.SUCCESS.getValue());
-        resp.setMessage(ResponseStatus.FAIL.getMessage());
+        resp.setMessage(message!=null?message:ResponseStatus.SUCCESS.getMessage());
         if(null != data){
             resp.setData(data);
         }

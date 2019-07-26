@@ -2,11 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lz.springbootjwt.mapper.UserMapper">
     <select id="selectByName" parameterType="java.lang.String" resultType="com.lz.springbootjwt.model.User">
-      select * from t_user where loginAccount = #{loginAccount}
+      select * from t_user where loginAccount = #{loginAccount} and status = 0
     </select>
 
     <select id="findUserById" parameterType="long" resultType="com.lz.springbootjwt.model.User">
-        select * from t_user where id = #{id}
+        select * from t_user where id = #{id} and status = 0
+    </select>
+
+    <select id="findRoleByUserId" parameterType="long" resultType="int">
+        select roleId from t_user_role where userId = #{id}
     </select>
 
     <insert id="insertUser" parameterType="com.lz.springbootjwt.model.User">
@@ -14,6 +18,13 @@
             t_user(userName,loginAccount,password,email,createTime)
         values
             (#{userName},#{loginAccount},#{password},#{email},#{createTime})
+    </insert>
+
+    <insert id="insertUserRoles" >
+        insert into t_user_role(userId,roleId) values
+        <foreach collection="roleIds" item="roleId" separator=",">
+            (#{userId},#{roleId})
+        </foreach>
     </insert>
 
     <update id="updataUser" parameterType="com.lz.springbootjwt.model.User">
@@ -32,4 +43,46 @@
         where id = #{id}
 
     </update>
+
+    <update id="deleteUserById" parameterType="long">
+        update t_user
+        set status =1
+        where id = #{id}
+    </update>
+
+    <update id="batchDeleteUserByIds" parameterType="java.util.List">
+        <!--<foreach collection="list" item="item" open="" close="" separator=",">
+            update t_user
+            set status = 1
+            where id = #{item}
+        </foreach>-->
+        update t_user
+        set status = 1
+        where id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
