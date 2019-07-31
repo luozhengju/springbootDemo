@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lzj
@@ -31,5 +32,10 @@ public class PermissionServiceImpl implements PermissionService {
     public List<String> findPermissionUrl(List<Integer> roleIds) {
        //List<Integer> permissionIds = roleMapper.findPermissionIdByRoleId(roleIds);
         return permissionMapper.findRolePermissionUrl(roleIds);
+    }
+
+    @Override
+    public Set<String> findPermsByUserId(Long userId) {
+        return permissionMapper.findPermsByUserId(userId);
     }
 }

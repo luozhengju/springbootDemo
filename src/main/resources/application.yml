@@ -14,3 +14,7 @@ swagger:
   title: 一只大肥橘
   version: 1.0
   desc: 一只大肥橘，向东流
+
+#logging:
+  #file: /Users/luozhengju/logs/springboot.log
+

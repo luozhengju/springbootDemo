@@ -11,6 +11,17 @@
         ) and url is not null and url !=""
 
     </select>
+
+    <select id="findPermsByUserId" parameterType="long" resultType="string">
+
+        select perms from t_permission where id in (
+          select permissionId from t_role_permission where roleId in(
+            select roleId from t_user_role where userId = #{userId}
+          )
+        ) and perms is not null
+
+
+    </select>
 </mapper>
 
 

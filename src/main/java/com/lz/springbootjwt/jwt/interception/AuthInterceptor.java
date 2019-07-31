@@ -17,7 +17,7 @@ import java.util.List;
  * @author lzj
  * @create 2019-07-26 17:52
  */
-@Component
+//@Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired

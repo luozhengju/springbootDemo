@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lzj
@@ -16,5 +17,7 @@ public interface PermissionMapper {
     List<String> findPermissionUrl();
 
     List<String> findRolePermissionUrl(List<Integer> roleIds);
+
+    Set<String> findPermsByUserId(Long userId);
 
 }

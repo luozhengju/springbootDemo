@@ -1,6 +1,7 @@
 package com.lz.springbootjwt.service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lzj
@@ -10,5 +11,7 @@ public interface PermissionService {
     List<String> findPermissionUrl();
 
     List<String> findPermissionUrl(List<Integer> roleIds);
+
+    Set<String> findPermsByUserId(Long userId);
 
 }

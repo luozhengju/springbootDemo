@@ -13,6 +13,8 @@
         select roleId from t_user_role where userId = #{id}
     </select>
 
+
+
     <insert id="insertUser" parameterType="com.lz.springbootjwt.model.User">
         insert into
             t_user(userName,loginAccount,password,email,createTime)

@@ -75,6 +75,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.findRoleByUserId(id);
     }
 
+
     private List<Long> string2long(String[] strs){
         ArrayList<Long> longs = new ArrayList<>();
         for(int i=0;i<strs.length;i++){
