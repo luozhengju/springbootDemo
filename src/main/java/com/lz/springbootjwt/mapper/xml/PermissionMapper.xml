@@ -13,13 +13,12 @@
     </select>
 
     <select id="findPermsByUserId" parameterType="long" resultType="string">
-
-        select perms from t_permission where id in (
-          select permissionId from t_role_permission where roleId in(
-            select roleId from t_user_role where userId = #{userId}
+        select perms from t_permission where EXISTS (
+          select permissionId from t_role_permission where EXISTS(
+            select * from t_user_role where
+						t_role_permission.roleId=t_user_role.roleId and userId = #{userId}
           )
         ) and perms is not null
-
 
     </select>
 </mapper>
